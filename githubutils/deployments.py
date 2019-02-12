@@ -43,6 +43,7 @@ class Deployment(object):
         kwargs['state'] = state
         request = requests.post(self.statuses_url, auth=self._auth, json=kwargs)
         request.raise_for_status()
+        return Status(request.json())
 
     def __repr__(self):
         return "Deployment(id=%d, ref=%r, environment=%r, description=%r)"\
@@ -76,3 +77,4 @@ class Repo(object):
                                 auth=self._auth,
                                 json=kwargs)
         request.raise_for_status()
+        return Deployment(request.json(), auth=self._auth)
